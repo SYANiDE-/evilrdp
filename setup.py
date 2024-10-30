@@ -43,14 +43,15 @@ setup(
 
 	install_requires=[
 		'prompt-toolkit',
-		'aardwolf>=0.2.5',
-		'pyqt5',
-		'pyqt5-sip',
+		'aardwolf>=0.2.8',
+		'pyqt6',
+		'pyqt6-sip',
 		'pyperclip',
 	],
 	
 	classifiers=[
-		"Programming Language :: Python :: 3.8",
+		"Programming Language :: Python :: 3.11",
+		"Programming Language :: Python :: 3.12",
 		"Operating System :: OS Independent",
 	],
 	entry_points={

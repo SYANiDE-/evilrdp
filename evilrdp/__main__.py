@@ -8,7 +8,7 @@ from aardwolf.commons.queuedata.constants import VIDEO_FORMAT
 from evilrdp._version import __banner__
 from evilrdp.gui import EvilRDPGUI, RDPClientConsoleSettings
 #from evilrdp.consolehelper import EVILRDPConsole
-from PyQt5.QtWidgets import QApplication, qApp
+from PyQt6.QtWidgets import QApplication
 
 def main():
 	import logging
@@ -54,8 +54,8 @@ def main():
 	app = QApplication(sys.argv)
 	qtclient = EvilRDPGUI(settings)
 	qtclient.show()
-	app.exec_()
-	qApp.quit()
+	app.exec()
+	app.quit()
 
 if __name__ == '__main__':
 	main()
