@@ -1,4 +1,4 @@
-![Supported Python versions](https://img.shields.io/badge/python-3.7+-blue.svg) [![Twitter](https://img.shields.io/twitter/follow/skelsec?label=skelsec&style=social)](https://twitter.com/intent/follow?screen_name=skelsec)
+![Supported Python versions](https://img.shields.io/badge/python-3.11+-blue.svg) [![Twitter](https://img.shields.io/twitter/follow/skelsec?label=skelsec&style=social)](https://twitter.com/intent/follow?screen_name=skelsec)
 
 ## :triangular_flag_on_post: Sponsors
 
@@ -56,6 +56,11 @@ As usual the scripts take the target/scredentials in URL format. Below some exam
  - `rdp+plain://Administrator:Passw0rd!1@10.10.10.103`  
  Plain authentication (No SSL, encryption is RC4) using password connecting to RDP server `10.10.10.103`
  - See `-h` for more
+
+# Running with Nix
+```bash
+nix run github:nonsleepr/evilrdp -- 'rdp+ntlm-password://TEST\Administrator:<NThash>@10.10.10.103'
+```
 
 # Kudos
  - Balazs Bucsay ([@xoreipeip](https://twitter.com/xoreipeip)) [`SocksOverRDP`](https://github.com/nccgroup/SocksOverRDP). The base idea for covert comms over RDP
