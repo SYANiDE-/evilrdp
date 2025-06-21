@@ -1,35 +1,16 @@
 
-import sys
-
+import sys, logging, argparse
 from aardwolf import logger
 from aardwolf.commons.iosettings import RDPIOSettings
 from aardwolf.commons.queuedata.constants import VIDEO_FORMAT
 #from aardwolf.extensions.RDPEDYC.vchannels.socksoverrdp import SocksOverRDPChannel
-from evilrdp._version import __banner__
+from evilrdp._version import __banner__, __examples__
 from evilrdp.gui import EvilRDPGUI, RDPClientConsoleSettings
 #from evilrdp.consolehelper import EVILRDPConsole
 from PyQt6.QtWidgets import QApplication
 
 def main():
-	import logging
-	import argparse
-	parser = argparse.ArgumentParser(description='Async RDP Client. Duckyscript will be executed by pressing ESC 3 times')
-	parser.add_argument('-v', '--verbose', action='count', default=0, help='Verbosity, can be stacked')
-	parser.add_argument('--no-mouse-hover', action='store_false', help='Disables sending mouse hovering data. (saves bandwith)')
-	parser.add_argument('--no-keyboard', action='store_false', help='Disables keyboard input. (whatever)')
-	parser.add_argument('--res', default = '1024x768', help='Resolution in "WIDTHxHEIGHT" format. Default: "1024x768"')
-	parser.add_argument('--keyboard', default = 'enus', help='Keyboard on the client side. Used for VNC and duckyscript')
-	parser.add_argument('url', help="RDP connection url")
-
-	args = parser.parse_args()
-
-	if args.verbose == 1:
-		logger.setLevel(logging.INFO)
-	elif args.verbose == 2:
-		logger.setLevel(logging.DEBUG)
-	elif args.verbose > 2:
-		logger.setLevel(1)
-
+	args = GetArgs()
 	width, height = args.res.upper().split('X')
 	height = int(height)
 	width = int(width)
@@ -44,7 +25,6 @@ def main():
 	#from aardwolf.extensions.RDPEDYC.vchannels.socksoverrdp import SocksOverRDPChannel
 	#iosettings.vchannels['PROXY'] = SocksOverRDPChannel(args.sockschannel, args.socksip, args.socksport)
 
-
 	settings = RDPClientConsoleSettings(args.url, iosettings)
 	settings.mhover = args.no_mouse_hover
 	settings.keyboard = args.no_keyboard
@@ -56,6 +36,37 @@ def main():
 	qtclient.show()
 	app.exec()
 	app.quit()
+
+
+def GetArgs():
+	parser = argparse.ArgumentParser(description='Async RDP Client. Duckyscript will be executed by pressing ESC 3 times')
+	mutually_exclusive = parser.add_mutually_exclusive_group()
+	parser.add_argument('-v', '--verbose', action='count', default=0, help='Verbosity, can be stacked')
+	parser.add_argument('--no-mouse-hover', action='store_false', help='Disables sending mouse hovering data. (saves bandwith)')
+	parser.add_argument('--no-keyboard', action='store_false', help='Disables keyboard input. (whatever)')
+	parser.add_argument('--res', default = '1024x768', help='Resolution in "WIDTHxHEIGHT" format. Default: "1024x768"')
+	parser.add_argument('--keyboard', default = 'enus', help='Keyboard on the client side. Used for VNC and duckyscript')
+	mutually_exclusive.add_argument('--url-examples', action='store_true', help='URL examples')
+	mutually_exclusive.add_argument('url', nargs='?', default="", help="RDP connection url")
+
+	args = parser.parse_args()
+
+	if args.url_examples == True:
+		print(__examples__)
+		sys.exit()
+	elif len(args.url) == 0:
+		parser.print_help()
+		sys.exit()
+
+	if args.verbose == 1:
+		logger.setLevel(logging.INFO)
+	elif args.verbose == 2:
+		logger.setLevel(logging.DEBUG)
+	elif args.verbose > 2:
+		logger.setLevel(1)
+
+	return args
+
 
 if __name__ == '__main__':
 	main()

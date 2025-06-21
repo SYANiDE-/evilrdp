@@ -47,6 +47,7 @@ setup(
 		'pyqt6',
 		'pyqt6-sip',
 		'pyperclip',
+		'pillow',
 	],
 	
 	classifiers=[
